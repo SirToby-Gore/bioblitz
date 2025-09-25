@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
 
     // ⬇️ IMPORTANT: Replace 'YOUR_USERNAME' with your iNaturalist username.
-    const INATURALIST_USERNAME = 'jenmanley'; // Using a sample username with observations
+    // const INATURALIST_USERNAME = 'jenmanley'; // Using a sample username with observations
+    const INATURALIST_USERNAME = 'solomon83578'; // Using a sample username with observations
     
     // Coordinates for Bournemouth University Talbot Campus to center the map
     const BOURNEMOUTH_UNI_COORDS = [50.740, -1.895]; 
@@ -67,13 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Fetches the introductory summary of a Wikipedia page.
      * @param {string} wikiUrl - The full URL of the Wikipedia page.
+     * @param {bool} complex - Weather or not to use the complex url
      * @returns {Promise<string>} A promise that resolves to the summary text.
      */
-    async function getWikipediaSummary(wikiUrl) {
+    async function getWikipediaSummary(wikiUrl, complex = false) {
         if (!wikiUrl) return "No description available.";
         
         const pageTitle = wikiUrl.split('/').pop();
-        const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=true&explaintext=true&origin=*&titles=${pageTitle}`;
+        const apiUrl = `https://${complex ? `en` : `simple`}.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=true&explaintext=true&origin=*&titles=${pageTitle}`;
         
         try {
             const response = await fetch(apiUrl);
@@ -82,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pages = data.query.pages;
             const pageId = Object.keys(pages)[0];
             const extract = pages[pageId].extract;
-            return extract || "No summary found for this species.";
+            return extract || getWikipediaSummary(wikiUrl, tru);
         } catch (error) {
             console.error("Wikipedia fetch error:", error);
             return "Could not load description.";
