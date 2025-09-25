@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Oswald:wght@200..700&display=swap");
+body {
+  padding: 0;
+  padding-bottom: 30vh;
+  margin: 0;
+  background-color: beige;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+body:has(:popover-open)::before {
+  filter: blur(3px);
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("image.png");
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  transition: filter 0.3s ease-in-out;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    margin: 2rem;
+  }
+}
+.main-title {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: white;
+  background-color: rgba(13, 72, 128, 0.6);
+  width: max-content;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+.main-title .top {
+  display: flex;
+  align-items: center;
+}
+.main-title .top img {
+  aspect-ratio: 1;
+  width: 8rem;
+  display: inline;
+}
+.main-title .top h1 {
+  display: inline;
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  text-decoration: underline;
+}
+.main-title .bottom p {
+  color: whitesmoke;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button[popovertarget] {
+  --colour: transparent;
+  margin: 4rem;
+  width: clamp(10rem, 8vw, 10rem);
+  min-height: 12rem;
+  background-color: rgba(20.0531914894, 111.0638297872, 197.4468085106, 0.6);
+  backdrop-filter: blur(3px);
+  border: var(--colour) 2px solid;
+  border-radius: 1rem;
+  padding: 1rem;
+  transition: filter 0.3s linear, scale 0.1s linear;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+button[popovertarget] .title {
+  font-size: 1.6rem;
+}
+button[popovertarget] .brief {
+  font-size: 1rem;
+}
+button[popovertarget]:hover, button[popovertarget]:active, button[popovertarget]:focus-within {
+  filter: brightness(150%);
+  scale: 1.3;
+  opacity: 1;
+}
+button[popovertarget].very-low {
+  --colour: cornflowerblue;
+}
+button[popovertarget].low {
+  --colour: lightgreen;
+}
+button[popovertarget].medium {
+  --colour: yellow;
+}
+button[popovertarget].high {
+  --colour: orangered;
+}
+button[popovertarget].very-high {
+  --colour: crimson;
+}
+button[popovertarget].extremely-high {
+  --colour: rgb(172, 0, 106);
+}
+button[popovertarget] {
+  transform: translate(0.2rem, 0.4rem);
+}
+
+@media only screen and (max-width: 600px) {
+  button[popovertarget] {
+    transform: none;
+  }
+}
+@keyframes blur-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+*[popover] {
+  --colour: transparent;
+  animation: blur-in 0.2s ease-in-out;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: #0d4880;
+  border: var(--colour) solid 3px;
+  color: white;
+  width: clamp(15rem, 50vw, 80rem);
+  height: clamp(40rem, 70vh, 150rem);
+  overflow-y: scroll;
+  overflow-y: scroll;
+}
+*[popover] .close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  aspect-ratio: 1;
+  width: 2rem;
+  border-radius: 0.5rem;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+*[popover] .close-button::after {
+  content: "x";
+  font-size: 2rem;
+  font-weight: bolder;
+  color: white;
+}
+*[popover] .title {
+  text-align: center;
+  text-decoration: underline;
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+}
+*[popover] .points {
+  margin-left: 10%;
+  font-style: italic;
+  color: var(--colour);
+}
+*[popover] .points::after {
+  content: " points";
+}
+*[popover] .description {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+*[popover].very-low {
+  --colour: cornflowerblue;
+}
+*[popover].low {
+  --colour: lightgreen;
+}
+*[popover].medium {
+  --colour: yellow;
+}
+*[popover].high {
+  --colour: orangered;
+}
+*[popover].very-high {
+  --colour: crimson;
+}
+*[popover].extremely-high {
+  --colour: rgb(172, 0, 106);
+}
+
+@media only screen and (max-width: 600px) {
+  *[popover] {
+    margin: 2rem;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */
