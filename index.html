@@ -3,282 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mangetout</title>
+    <title>BioBlitz Interactive Game</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
     <link rel="stylesheet" href="styles.css">
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 </head>
 <body>
-    <main>
-        <div class="main-title">
-            <span class="top"><h1>The Mangetout project</h1><img src="favicon.png" alt="mangetout"></span>
-            <span class="bottom"><p>The names comes from &quot;man get out&quot;&semi; you, outside and appreciate the out doors</p></span>
-        </div>
 
-        <button popovertarget="1" class="very-low">
-            <h1 class="title">Why not a mardle</h1>
-            <p class="brief">a good way to get away from all what life do hoss at you</p>
-        </button>
-        <div popover="auto" class="very-low" id="1">
-            <button class="close-button" popovertarget="1" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Why not a mardle</h1>
-            <p class="points">10</p>
-            <div class="description">
-                <p>Why not when you&apos;re feeling a bit het up, take a breather and stretch your legs for a 10 minute mardle. It&apos;s a right good way to feel the sun on your face or the wind in your hair.</p>
-                <p>Just a quick break, and you&apos;ll be as right as rain in no time at all. It&apos;s a chance to stop, look at the clouds, and just exist for a bit without any bother.</p>
-                <p>You might hear a bird song you&apos;ve never noticed before or the rustle of a squirrel going about its business. It&apos;s a proper way to ground yourself when things get too much.</p>
-                <p>It&apos;s not about a big journey, just a small bit of the outside world, right where you are. It reminds you that beauty and calm are always close by if you only look.</p>
-                <p>By the time you&apos;re back at it, you&apos;ll feel a good bit better, refreshed and ready for whatever&apos;s next. A simple mardle does the world of good.</p>
-            </div>
-        </div>
+    <header>
+        <h1>Bournemouth Uni BioBlitz 🌳</h1>
+    </header>
 
-        <button popovertarget="14" class="very-low">
-            <h1 class="title">Have a Shufti</h1>
-            <p class="brief">a proper look at the world around you</p>
-        </button>
-        <div popover="auto" class="very-low" id="14">
-            <button class="close-button" popovertarget="14" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Have a Shufti</h1>
-            <p class="points">15</p>
-            <div class="description">
-                <p>Take a moment to just stop and have a good old shufti at the world around you. Really look at the trees and the way the light hits the leaves. See the little insects crawling about and the birds flying high in the sky.</p>
-                <p>It&apos;s a chance to just be still and take in all the details you normally miss when you&apos;re in a rush. It gives your mind a rest and a bit of wonder.</p>
-                <p>You&apos;ll find that the world is a sight more interesting than you thought, full of little things just waiting to be noticed. It&apos;s a way to feel connected to the land, just by paying attention.</p>
-            </div>
-        </div>
-        
-        <button popovertarget="2" class="low">
-            <h1 class="title">Go for a jaunt</h1>
-            <p class="brief">a way to clear your head and mull over thoughts</p>
-        </button>
-        <div popover="auto" id="2" class="low">
-            <button class="close-button" popovertarget="2" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Go for a jaunt</h1>
-            <p class="points">25</p>
-            <div class="description">
-                <p>When you&apos;ve got a lot on your mind and need to have a proper ponder, a half-hour jaunt is just the thing. It&apos;s not a race, mind you. Just a steady wander to sort out your thoughts, free from all the noise.</p>
-                <p>The rhythm of your feet on the path helps your thoughts fall into place. It&apos;s a good way to let your mind chew on whatever&apos;s botherin&apos; you, without the distractions of the telly or your phone.</p>
-                <p>The air on your skin and the changing scenery give your brain something else to focus on for a bit, a nice backdrop for your mind&apos;s work. The simple act of moving forward helps you feel like you&apos;re making progress.</p>
-                <p>You might notice little things you normally walk past, like a flower in a hedge or an old signpost. The walk itself is a bit of a meditation, a way to be present in the moment.</p>
-                <p>By the time you get back, your mind will feel a sight clearer, ready to face whatever comes next with a bit more calm.</p>
-            </div>
-        </div>
+    <main id="app-container">
+        </main>
 
-        <button popovertarget="15" class="low">
-            <h1 class="title">A Meander by the Wherry</h1>
-            <p class="brief">a gentle walk by the river</p>
-        </button>
-        <div popover="auto" id="15" class="low">
-            <button class="close-button" popovertarget="15" popovertargetaction="close" title="close"></button>
-            <h1 class="title">A Meander by the Wherry</h1>
-            <p class="points">30</p>
-            <div class="description">
-                <p>Find a river or a stream and just follow the path alongside it. The Wherry boats used to move goods along these waterways, and there's a proper peaceful feeling about the place.</p>
-                <p>The gentle flow of the water and the sounds of the bankside birds are a right good way to clear your head. It's a proper meander, a walk without a big purpose beyond enjoying the moment.</p>
-                <p>You'll see dragonflies and fish, and the big old trees that hang over the water. It’s a bit of a classic walk, and for a good reason.</p>
-            </div>
-        </div>
+    <footer>
+        <p>Built with ❤️ for biodiversity education.</p>
+    </footer>
 
-        <button popovertarget="3" class="low">
-            <h1 class="title">Ramble to the Pub</h1>
-            <p class="brief">go a bit of a ways and see what&apos;s on</p>
-        </button>
-        <div popover="auto" id="3" class="low">
-            <button class="close-button" popovertarget="3" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Ramble to the Pub</h1>
-            <p class="points">30</p>
-            <div class="description">
-                <p>Fancy a bit of a longer walk? Go on a proper ramble down the winding lanes and across a field or two. See what&apos;s on at the local, and have a natter with the folk there.</p>
-                <p>This ain&apos;t just a walk; it&apos;s a social expedition. You&apos;ll pass by fields where crops are growing and old trees that have seen a thing or two. It&apos;s a way to appreciate the simple beauty of the countryside.</p>
-                <p>The pub at the end is a grand reward. That pint or soft drink tastes all the better for the effort you put in to get there. It&apos;s a real treat, a little something to look forward to.</p>
-                <p>You might run into a few old pals or meet some new faces. A proper good natter over a drink is a good way to end the journey and feel connected to the folk who live on the land.</p>
-                <p>A ramble like this is good for the body and the soul, a chance to get a bit of exercise and some good company all in one.</p>
-            </div>
-        </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
 
-        <button popovertarget="4" class="medium">
-            <h1 class="title">Spot a Banger</h1>
-            <p class="brief">see if you can find some proper good &apos;uns</p>
-        </button>
-        <div popover="auto" id="4" class="medium">
-            <button class="close-button" popovertarget="4" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Spot a Banger</h1>
-            <p class="points">40</p>
-            <div class="description">
-                <p>Keep your eyes peeled for a real classic. It could be an old tractor sittin&apos; in a field, a vintage car tucked away in a barn, or even a fancy new one parked up just for show.</p>
-                <p>The joy is in the hunt. You&apos;re out there on your own time, with nothing to do but look around and see what you can find. It&apos;s a bit of a treasure hunt, a chance to find something unexpected and interesting.</p>
-                <p>Finding a &apos;banger&apos; is a proper treat, a little surprise to brighten your day and remind you to look at the world around you. Every now and then, you see a real gem that makes you stop and stare.</p>
-                <p>It&apos;s a hobby that makes you appreciate the old things and the new, the history in the countryside, and the creativity that people put into their machines. It gives you a reason to walk down a different road.</p>
-                <p>A good banger is a conversation starter. You can take a picture and show your mates, or just keep it as a little secret memory for yourself.</p>
-            </div>
-        </div>
+    <script src="script.js"></script>
 
-        <button popovertarget="5" class="medium">
-            <h1 class="title">A Daddle by the Sea</h1>
-            <p class="brief">a nice little walk along the coast</p>
-        </button>
-        <div popover="auto" id="5" class="medium">
-            <button class="close-button" popovertarget="5" popovertargetaction="close" title="close"></button>
-            <h1 class="title">A Daddle by the Sea</h1>
-            <p class="points">40</p>
-            <div class="description">
-                <p>There&apos;s nothin&apos; quite like a good daddle by the sea to blow the cobwebs away. Take a walk along the shore, feel the sea breeze on your face, and listen to the gulls cry.</p>
-                <p>The big sky and wide-open space will make any troubles you&apos;re carryin&apos; feel a sight smaller. The sheer size of the sea puts things in perspective, you see.</p>
-                <p>You can look for bits of sea glass, pretty shells, or just feel the sand between your toes. The constant sound of the waves is a real calming thing, a natural rhythm that soothes the mind.</p>
-                <p>The salt in the air and the smell of the ocean are a proper sensory experience. It&apos;s a complete escape from the everyday, a chance to just be with your thoughts and the big blue.</p>
-                <p>Whether it&apos;s a calm day or a stormy one, a daddle by the sea is always a good idea. It reminds you of the power and beauty of the natural world and how lucky we are to have it.</p>
-            </div>
-        </div>
-
-        <button popovertarget="6" class="high">
-            <h1 class="title">Climb a Mound</h1>
-            <p class="brief">get up high for a good view of the land</p>
-        </button>
-        <div popover="auto" id="6" class="high">
-            <button class="close-button" popovertarget="6" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Climb a Mound</h1>
-            <p class="points">45</p>
-            <div class="description">
-                <p>When things feel like they&apos;re gettin&apos; on top of you, get up high. Find a proper hill or a mound and climb to the top.</p>
-                <p>The climb itself is a good bit of effort, a way to focus your body on something other than your mind&apos;s worries. Each step is a step away from what was botherin&apos; you.</p>
-                <p>From up there, you can see for miles and miles. The villages and roads look like a map, and your own worries seem a bit more manageable when you see &apos;em in perspective.</p>
-                <p>You can sit for a while and just watch the world go on below you, feeling the wind and hearing the silence. It&apos;s a powerful feeling, a proper sense of accomplishment.</p>
-                <p>By the time you come back down, you&apos;ll be tired in a good way, with a clear head and a new feeling of purpose. A good climb is a proper reset.</p>
-            </div>
-        </div>
-
-        <button popovertarget="7" class="high">
-            <h1 class="title">Find a Fen</h1>
-            <p class="brief">a proper trek out to the water</p>
-        </button>
-        <div popover="auto" id="7" class="high">
-            <button class="close-button" popovertarget="7" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Find a Fen</h1>
-            <p class="points">65</p>
-            <div class="description">
-                <p>The fens are a right old quiet place, full of reedbeds and water. It&apos;s a proper trek to get out there, but it&apos;s worth it for the peace.</p>
-                <p>You&apos;ll hear nothing but the wind in the reeds and the sounds of nature. It&apos;s a grand place to have a peaceful think and a good look about.</p>
-                <p>The stillness of the water and the tall grasses give you a feeling of being in a proper wild place, a spot that hasn&apos;t changed much in a hundred years or more.</p>
-                <p>You might spot a marsh harrier soaring overhead or a dragonfly skimming the water&apos;s surface. It&apos;s a place where you can really feel a part of the landscape.</p>
-                <p>The feeling of finding a fen and spending time there is a reward in itself. It&apos;s a reminder that quiet, untamed beauty still exists in the world.</p>
-            </div>
-        </div>
-
-        <button popovertarget="16" class="high">
-            <h1 class="title">Go Gormin'</h1>
-            <p class="brief">a peaceful sit-down to watch the world go by</p>
-        </button>
-        <div popover="auto" id="16" class="high">
-            <button class="close-button" popovertarget="16" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Go Gormin'</h1>
-            <p class="points">60</p>
-            <div class="description">
-                <p>This is for when you want to truly unwind. Find a nice spot—maybe a field gate, a bench by a pond, or a little hill—and just sit there, gormin&apos; at the view.</p>
-                <p>There&apos;s no agenda here. Just a chance to watch the birds, see the clouds drift by, or stare at the patterns in the grass. It&apos;s a proper bit of nothingness, and that&apos;s the point.</p>
-                <p>The silence is a good companion, and it gives your mind a chance to catch up and feel a bit of peace. It&apos;s a simple pleasure that gives a world of rest.</p>
-            </div>
-        </div>
-
-        <button popovertarget="8" class="very-high">
-            <h1 class="title">Go on a Lollop</h1>
-            <p class="brief">a proper long journey to a new place</p>
-        </button>
-        <div popover="auto" id="8" class="very-high">
-            <button class="close-button" popovertarget="8" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Go on a Lollop</h1>
-            <p class="points">85</p>
-            <div class="description">
-                <p>A lollop is more than a walk; it&apos;s a proper journey. Pack some grub and your boots and head out to a new village or a different parish.</p>
-                <p>This is a chance to be a bit of an explorer, to see what&apos;s over the next hill or around the next corner. You&apos;ll pass by different sorts of houses, see new fields, and maybe even find a path you&apos;ve never been on before.</p>
-                <p>You&apos;ll see new sights, meet new folks, and get to know the world a little bit better. It&apos;s a day for the senses, an adventure from your own front door.</p>
-                <p>The journey itself is the main thing here. The feeling of putting one foot in front of the other for hours on end is a proper meditation. It helps you get out of your own head and into the world.</p>
-                <p>By the time you get home, you&apos;ll feel tired but full of good memories. You&apos;ll have seen what the world has to offer and know you can handle a proper day&apos;s walk.</p>
-            </div>
-        </div>
-
-        <button popovertarget="9" class="very-high">
-            <h1 class="title">Bird Watchin&apos;</h1>
-            <p class="brief">find the birds and see what they&apos;re up to</p>
-        </button>
-        <div popover="auto" id="9" class="very-high">
-            <button class="close-button" popovertarget="9" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Bird Watchin&apos;</h1>
-            <p class="points">80</p>
-            <div class="description">
-                <p>This is for a calm soul. Grab your binoculars and find a quiet spot. See if you can spot a sparrowhawk, a proper coot, or maybe even a bittern if you&apos;re lucky.</p>
-                <p>It&apos;s a patience game, but the reward is seeing the natural world in a way you don&apos;t normally. You have to be still and quiet, which is a good lesson for the mind.</p>
-                <p>You get to observe the little lives going on all around you, the birds building their nests, finding food, or just sitting on a wire. It&apos;s a glimpse into another world right next to our own.</p>
-                <p>The feeling of spotting a rare bird you&apos;ve only ever seen in a book is a real thrill. It&apos;s a moment of connection with something wild and beautiful.</p>
-                <p>Bird watching reminds you to slow down and pay attention to the small things. It&apos;s a quiet, peaceful hobby that brings a lot of joy.</p>
-            </div>
-        </div>
-
-        <button popovertarget="10" class="very-high">
-            <h1 class="title">A Night&apos;s Trek</h1>
-            <p class="brief">a walk when the moon&apos;s out</p>
-        </button>
-        <div popover="auto" id="10" class="very-high">
-            <button class="close-button" popovertarget="10" popovertargetaction="close" title="close"></button>
-            <h1 class="title">A Night&apos;s Trek</h1>
-            <p class="points">90</p>
-            <div class="description">
-                <p>The world is a different place at night. The air is cool, the sounds are different, and the sky is full of stars, if the clouds stay away.</p>
-                <p>It&apos;s a bit spooky at first, but you soon get used to it. Your other senses get stronger, and you&apos;ll be surprised at what you can hear and smell when the world is dark.</p>
-                <p>A night&apos;s trek is for when you want to feel small under the big sky, a reminder that the world is bigger than any of your troubles. The quiet stillness is a proper thing to experience.</p>
-                <p>You might hear the hoot of an owl or the call of a fox in the distance. The shadows and moonlight make the world look new and mysterious, even in places you know well.</p>
-                <p>It&apos;s a bold and peaceful thing to do, a way to connect with the night and find a bit of courage in the dark. You&apos;ll be glad you did it.</p>
-            </div>
-        </div>
-
-        <button popovertarget="11" class="extremely-high">
-            <h1 class="title">Find a Hideaway</h1>
-            <p class="brief">a quiet place with no one else about</p>
-        </button>
-        <div popover="auto" id="11" class="extremely-high">
-            <button class="close-button" popovertarget="11" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Find a Hideaway</h1>
-            <p class="points">100</p>
-            <div class="description">
-                <p>Go find a secret spot. A little grove of trees, a quiet bench by a pond, or a field with no one else about. This is a quest for solitude, a place that is just your own.</p>
-                <p>The search for it is half the fun. You&apos;ll take paths you&apos;ve never taken before and see things you&apos;ve always walked past. It&apos;s a way to find a bit of wilderness in your own patch.</p>
-                <p>This is your place to be on your own, to just sit and exist without having to put on a show for anyone. It&apos;s a spot for reflection, for quiet thought, or for no thoughts at all.</p>
-                <p>A proper hideaway is a place for your soul. It&apos;s where you can recharge and feel a sense of peace that you can&apos;t get anywhere else.</p>
-                <p>Once you find it, it&apos;s a place you can come back to whenever you need a moment of peace, a personal sanctuary in the great outdoors.</p>
-            </div>
-        </div>
-
-        <button popovertarget="12" class="extremely-high">
-            <h1 class="title">Forage for Goodies</h1>
-            <p class="brief">find some edible stuff in the woods</p>
-        </button>
-        <div popover="auto" id="12" class="extremely-high">
-            <button class="close-button" popovertarget="12" popovertargetaction="close" title="close"></button>
-            <h1 class="title">Forage for Goodies</h1>
-            <p class="points">120</p>
-            <div class="description">
-                <p>This is a proper old skill, foraging for what the land gives you. Look for berries in the hedgerows, nuts in the woods, or mushrooms if you know what you&apos;re doing, mind.</p>
-                <p>It&apos;s a bit of an education, a way to learn about the plants and trees around you. It connects you to the natural world in a very direct way, by using what it provides.</p>
-                <p>The feeling of finding something good to eat that you&apos;ve found yourself is a proper good feeling. It&apos;s a taste of history and a reminder of how our ancestors lived.</p>
-                <p>This activity makes you slow down and really look at the ground and the trees around you. It&apos;s a very mindful and rewarding experience, a simple pleasure that feels like a real achievement.</p>
-                <p>Just remember to be careful and make sure you know exactly what you&apos;re picking. Best to go with someone who knows what they&apos;re doing for the first few times.</p>
-            </div>
-        </div>
-
-        <button popovertarget="13" class="extremely-high">
-            <h1 class="title">A Day&apos;s Outin&apos;</h1>
-            <p class="brief">spend the whole day outside, not goin&apos; home til the sun&apos;s gone down</p>
-        </button>
-        <div popover="auto" id="13" class="extremely-high">
-            <button class="close-button" popovertarget="13" popovertargetaction="close" title="close"></button>
-            <h1 class="title">A Day&apos;s Outin&apos;</h1>
-            <p class="points">160</p>
-            <div class="description">
-                <p>This is the big one. An all-day outing where you pack up and don&apos;t come home until it&apos;s getting dark. It&apos;s a whole day of fresh air, good food, and seeing new things.</p>
-                <p>You can go to a new patch of woods, find a different part of the coast, or walk a big loop in the countryside. The day is yours, with no agenda but to be outside and enjoy it.</p>
-                <p>It&apos;s a way to feel the full span of a day in the open, from the early light to the evening chill. You&apos;ll see the landscape change as the sun moves across the sky.</p>
-                <p>By the time you get home, you&apos;ll be tired, but you&apos;ll have a good feeling in your chest, knowing you&apos;ve had a proper go at it. Your body will be tired but your mind will be rested.</p>
-                <p>A full day&apos;s outin&apos; is a good reminder that the best things in life can be found outside, and they don&apos;t cost a thing.</p>
-            </div>
-        </div>
-    </main>
 </body>
 </html>

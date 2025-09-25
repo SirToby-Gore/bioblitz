@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioBlitz Demo App</title>
+    
+    <!-- Leaflet CSS for the map functionality -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+    <style>
+        /* --- iPhone Frame and Page Styles --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #e5e7eb; /* gray-200 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        header {
+            padding-top: 2.5rem !important;
+        }
+
+        .iphone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: #000;
+            border-radius: 60px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.3);
+            padding: 16px;
+            border: 8px solid #333;
+            position: relative;
+        }
+
+        .iphone-notch {
+            position: absolute;
+            top: 16px; /* Match padding */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background-color: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 20;
+        }
+
+        .iphone-screen {
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* --- BioBlitz App Styles (from your styles.css) --- */
+        :root {
+            --primary-color: #2a9d8f;
+            --secondary-color: #e9c46a;
+            --background-color: #f4f1de;
+            --text-color: #264653;
+            --danger-color: #e76f51;
+            --white: #ffffff;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        /* Scoping app styles to the screen container */
+        .iphone-screen {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .iphone-screen header, .iphone-screen footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0; /* Prevent header/footer from shrinking */
+        }
+        
+        .iphone-screen header h1 {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        .iphone-screen footer p {
+            font-size: 0.75rem;
+            margin: 0;
+        }
+
+        .iphone-screen main {
+            flex-grow: 1;
+            padding: 1rem; /* Reduced padding for a better fit */
+            overflow-y: auto; /* Make main content scrollable */
+        }
+        
+        /* Hide scrollbar for a cleaner look */
+        .iphone-screen main::-webkit-scrollbar {
+            display: none;
+        }
+
+        #app-container {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .hidden { display: none; }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 0.5rem;
+        }
+        .btn:hover {
+            background-color: #21867a;
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        .main-menu h2 {
+            font-size: 1.4rem;
+        }
+
+        .main-menu p {
+            font-size: 0.9rem;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .loading-indicator, .error-message {
+            font-size: 1.1rem; /* Slightly smaller font */
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flashcard-container { perspective: 1000px; }
+        .flashcard {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1rem; /* Reduced padding */
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+            min-height: 450px;
+        }
+        .flashcard.is-flipped { transform: rotateY(180deg); }
+        .flashcard-face {
+            position: absolute;
+            width: calc(100% - 2rem); /* Adjusted for new padding */
+            height: calc(100% - 2rem); /* Adjusted for new padding */
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .flashcard-front {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+            overflow-y: auto;
+            text-align: left;
+        }
+        .flashcard img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .flashcard h2 { margin: 0.5rem 0 0.25rem; color: var(--primary-color); font-size: 1.25rem;}
+        .flashcard h3 { margin: 0 0 1rem; font-style: italic; font-weight: 400; color: #555; font-size: 0.9rem; }
+        .flashcard-nav { margin-top: 1.5rem; }
+
+        .quiz-container {
+            background: var(--white);
+            padding: 1.25rem; /* Reduced padding */
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        .quiz-question { font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .quiz-options { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+        .quiz-options button {
+            width: 100%;
+            background: #f0f0f0;
+            color: var(--text-color);
+            border: 2px solid #ddd;
+            text-align: left;
+            padding: 10px;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .quiz-options button:hover { background: #e0e0e0; border-color: var(--secondary-color); }
+        .quiz-options button.correct { background-color: #d4edda; border-color: #c3e6cb; }
+        .quiz-options button.incorrect { background-color: #f8d7da; border-color: #f5c6cb; }
+        .quiz-progress { margin-top: 1.5rem; font-weight: bold; }
+
+        #map {
+            height: 250px;
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin: 1rem 0;
+        }
+        .field-hunt-container p, .description-box {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-style: italic;
+            border-left: 5px solid var(--secondary-color);
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- This is the iPhone frame for the demo -->
+    <div class="iphone-frame">
+        <div class="iphone-notch"></div>
+        <div class="iphone-screen">
+            <!-- Your app's HTML structure goes here -->
+            <header>
+                <h1>Bournemouth Uni BioBlitz 🌳</h1>
+            </header>
+            <main id="app-container">
+                <!-- App content will be dynamically injected here by script.js -->
+            </main>
+            <footer>
+                <p>Built for biodiversity education.</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Leaflet JS for map functionality -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <!-- Your app's JavaScript logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // =========================================================================
+            // --- CONFIGURATION ---
+            // =========================================================================
+
+            const INATURALIST_USERNAME = 'jenmanley';
+            const BOURNEMOUTH_UNI_COORDS = [50.740, -1.895]; 
+            const FUN_FACTS_POOL = [
+                "Some insects can survive being frozen solid.", "A single tree can absorb as much as 48 pounds of carbon dioxide per year.", "The oldest known living tree is over 5,000 years old.", "Butterflies taste with their feet.", "There are more microorganisms in one teaspoon of soil than there are people on earth.", "Some fungi create 'zombie ants' by infecting their brains.", "The Earth has more than 80,000 species of edible plants.", "Owls can't move their eyeballs.", "A group of flamingos is called a 'flamboyance'.", "Bees are found on every continent except Antarctica."
+            ];
+
+            // =========================================================================
+            // --- APPLICATION STATE ---
+            // =========================================================================
+            let state = { speciesData: [], currentFlashcard: 0, quizQuestions: [], currentQuestion: 0, quizScore: 0, map: null };
+
+            // =========================================================================
+            // --- DOM ELEMENT SELECTOR ---
+            // =========================================================================
+            const appContainer = document.getElementById('app-container');
+
+            // =========================================================================
+            // --- API & DATA FETCHING ---
+            // =========================================================================
+            async function getiNaturalistData() {
+                const url = `https://api.inaturalist.org/v1/observations?user_id=${INATURALIST_USERNAME}&per_page=10&order=desc&order_by=observed_on`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`iNaturalist API failed with status: ${response.status}`);
+                return (await response.json()).results;
+            }
+
+            async function getWikipediaSummary(wikiUrl) {
+                if (!wikiUrl) return "No description available.";
+                const pageTitle = wikiUrl.split('/').pop();
+                const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=true&explaintext=true&origin=*&titles=${pageTitle}`;
+                try {
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) throw new Error('Wikipedia API response not OK.');
+                    const data = await response.json();
+                    const pages = data.query.pages;
+                    const pageId = Object.keys(pages)[0];
+                    return pages[pageId].extract || "No summary found for this species.";
+                } catch (error) {
+                    console.error("Wikipedia fetch error:", error);
+                    return "Could not load description.";
+                }
+            }
+
+            // =========================================================================
+            // --- TEMPLATES & RENDERING ---
+            // =========================================================================
+            function render(html) { appContainer.innerHTML = html; }
+            function renderLoading() { render(`<div class="loading-indicator">🔬 Fetching biodiversity data...</div>`); }
+            function renderError(message) { render(`<div class="error-message">😟 Oops! ${message}</div>`); }
+            
+            function renderMainMenu() {
+                render(`
+                    <div class="main-menu">
+                        <h2 sytle="text-align: center">Welcome to the BioBlitz Challenge!</h2>
+                        <p>Choose a mode below to start learning.</p>
+                        <button id="start-learning-btn" class="btn">🧠 Learning Mode</button>
+                        <button id="start-exploration-btn" class="btn">🧭 Exploration Mode</button>
+                    </div>`);
+                document.getElementById('start-learning-btn').addEventListener('click', startLearningMode);
+                document.getElementById('start-exploration-btn').addEventListener('click', startExplorationModeMenu);
+            }
+
+            function renderFlashcard() {
+                const species = state.speciesData[state.currentFlashcard];
+                render(`
+                    <div class="flashcard-container">
+                        <div id="flashcard" class="flashcard">
+                            <div class="flashcard-face flashcard-front">
+                                <img src="${species.photoUrl}" alt="${species.commonName}">
+                                <h2>${species.commonName}</h2>
+                                <h3><em>${species.scientificName}</em></h3>
+                                <button id="flip-btn" class="btn btn-secondary">Show Info</button>
+                            </div>
+                            <div class="flashcard-face flashcard-back">
+                                <h4>Description</h4>
+                                <p>${species.description}</p>
+                                <h4>⭐ Fun Fact</h4>
+                                <p>${species.funFact}</p>
+                                <button id="flip-back-btn" class="btn btn-secondary">Show Photo</button>
+                            </div>
+                        </div>
+                        <div class="flashcard-nav">
+                            <button id="prev-card-btn" class="btn" ${state.currentFlashcard === 0 ? 'disabled' : ''}>◄</button>
+                            <span>${state.currentFlashcard + 1} / ${state.speciesData.length}</span>
+                            <button id="next-card-btn" class="btn" ${state.currentFlashcard === state.speciesData.length - 1 ? 'disabled' : ''}>►</button>
+                        </div>
+                        <button id="start-quiz-btn" class="btn">Ready for a Quiz!</button>
+                    </div>`);
+                const card = document.getElementById('flashcard');
+                document.getElementById('flip-btn').addEventListener('click', () => card.classList.add('is-flipped'));
+                document.getElementById('flip-back-btn').addEventListener('click', () => card.classList.remove('is-flipped'));
+                document.getElementById('prev-card-btn').addEventListener('click', () => { if (state.currentFlashcard > 0) { state.currentFlashcard--; renderFlashcard(); } });
+                document.getElementById('next-card-btn').addEventListener('click', () => { if (state.currentFlashcard < state.speciesData.length - 1) { state.currentFlashcard++; renderFlashcard(); } });
+                document.getElementById('start-quiz-btn').addEventListener('click', startQuiz);
+            }
+
+            function renderQuizQuestion() {
+                const q = state.quizQuestions[state.currentQuestion];
+                const optionsHtml = q.options.map((option, index) => `<button class="btn quiz-option" data-index="${index}">${option}</button>`).join('');
+                render(`
+                    <div class="quiz-container">
+                        <div class="quiz-question">${q.question}</div>
+                        <div class="quiz-options">${optionsHtml}</div>
+                        <div class="quiz-progress">Question ${state.currentQuestion + 1} of ${state.quizQuestions.length} | Score: ${state.quizScore}</div>
+                    </div>`);
+                document.querySelectorAll('.quiz-option').forEach(button => button.addEventListener('click', (e) => handleQuizAnswer(e.target)));
+            }
+
+            function renderQuizSummary() {
+                const percentage = Math.round((state.quizScore / state.quizQuestions.length) * 100);
+                render(`
+                    <div class="quiz-container">
+                        <h2>Quiz Complete!</h2>
+                        <p>Your final score is: <strong>${state.quizScore} out of ${state.quizQuestions.length} (${percentage}%)</strong></p>
+                        <button id="restart-learning-btn" class="btn">Play Again</button>
+                        <button id="main-menu-btn" class="btn btn-secondary">Main Menu</button>
+                    </div>`);
+                document.getElementById('restart-learning-btn').addEventListener('click', startLearningMode);
+                document.getElementById('main-menu-btn').addEventListener('click', renderMainMenu);
+            }
+
+            function startExplorationModeMenu() {
+                render(`
+                    <div class="main-menu">
+                        <h2>Exploration Mode</h2>
+                        <p>Ready to explore? Choose your challenge.</p>
+                        <button id="map-challenge-btn" class="btn">🗺️ Map Challenge</button>
+                        <button id="field-hunt-btn" class="btn">🌿 Field Hunt</button>
+                        <button id="main-menu-btn" class="btn btn-secondary">Back to Main Menu</button>
+                    </div>`);
+                document.getElementById('map-challenge-btn').addEventListener('click', renderMapChallenge);
+                document.getElementById('field-hunt-btn').addEventListener('click', renderFieldHunt);
+                document.getElementById('main-menu-btn').addEventListener('click', renderMainMenu);
+            }
+
+            function renderMapChallenge() {
+                const species = state.speciesData[Math.floor(Math.random() * state.speciesData.length)];
+                state.activeChallengeSpecies = species;
+                render(`
+                    <div>
+                        <h2>Map Challenge</h2>
+                        <p style="padding: 0 1rem;">Where was the <strong>${species.commonName}</strong> observed? Click the map to guess!</p>
+                        <div id="map"></div>
+                        <div id="map-result"></div>
+                        <button id="exploration-menu-btn" class="btn btn-secondary">Back to Exploration Menu</button>
+                    </div>`);
+                document.getElementById('exploration-menu-btn').addEventListener('click', startExplorationModeMenu);
+                initializeMap();
+            }
+
+            function renderFieldHunt() {
+                const species = state.speciesData[Math.floor(Math.random() * state.speciesData.length)];
+                state.activeChallengeSpecies = species;
+                render(`
+                    <div class="field-hunt-container">
+                        <h2>Field Hunt</h2>
+                        <p>Can you find a species that matches this description?</p>
+                        <div class="description-box"><em>"${species.description}"</em></div>
+                        <button id="check-observation-btn" class="btn">Check My Latest Post</button>
+                        <div id="field-hunt-result"></div>
+                        <button id="exploration-menu-btn" class="btn btn-secondary">Back to Exploration Menu</button>
+                    </div>`);
+                document.getElementById('check-observation-btn').addEventListener('click', checkFieldSubmission);
+                document.getElementById('exploration-menu-btn').addEventListener('click', startExplorationModeMenu);
+            }
+
+            // =========================================================================
+            // --- GAME LOGIC & EVENT HANDLERS ---
+            // =========================================================================
+            function startLearningMode() {
+                state.currentFlashcard = 0; state.quizScore = 0; state.currentQuestion = 0;
+                renderFlashcard();
+            }
+            function startQuiz() { generateQuizQuestions(); renderQuizQuestion(); }
+
+            function generateQuizQuestions() {
+                const questions = [];
+                const speciesCopy = [...state.speciesData];
+                for (let i = 0; i < 5; i++) {
+                    if(speciesCopy.length === 0) break;
+                    const correctSpecies = speciesCopy.splice(Math.floor(Math.random() * speciesCopy.length), 1)[0];
+                    const otherOptions = state.speciesData.filter(s => s.id !== correctSpecies.id).sort(() => 0.5 - Math.random()).slice(0, 3).map(s => s.scientificName);
+                    const options = [correctSpecies.scientificName, ...otherOptions].sort(() => 0.5 - Math.random());
+                    questions.push({
+                        question: `What is the scientific name for the <strong>${correctSpecies.commonName}</strong>?`,
+                        options: options,
+                        answer: options.indexOf(correctSpecies.scientificName)
+                    });
+                }
+                state.quizQuestions = questions;
+            }
+
+            function handleQuizAnswer(selectedButton) {
+                const selectedIndex = parseInt(selectedButton.dataset.index);
+                const question = state.quizQuestions[state.currentQuestion];
+                if (selectedIndex === question.answer) {
+                    state.quizScore++;
+                    selectedButton.classList.add('correct');
+                } else {
+                    selectedButton.classList.add('incorrect');
+                    document.querySelector(`.quiz-option[data-index="${question.answer}"]`).classList.add('correct');
+                }
+                document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+                setTimeout(() => {
+                    state.currentQuestion++;
+                    if (state.currentQuestion < state.quizQuestions.length) renderQuizQuestion();
+                    else renderQuizSummary();
+                }, 1500);
+            }
+
+            function initializeMap() {
+                if (state.map) { state.map.remove(); }
+                state.map = L.map('map').setView(BOURNEMOUTH_UNI_COORDS, 16);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(state.map);
+                state.map.on('click', handleMapGuess);
+            }
+
+            function handleMapGuess(e) {
+                const guessLatLng = e.latlng;
+                const actualLatLng = L.latLng(state.activeChallengeSpecies.location);
+                if (state.guessMarker) state.map.removeLayer(state.guessMarker);
+                if (state.actualMarker) state.map.removeLayer(state.actualMarker);
+                state.guessMarker = L.marker(guessLatLng).addTo(state.map).bindPopup("Your Guess").openPopup();
+                state.actualMarker = L.marker(actualLatLng).addTo(state.map).bindPopup("Actual Location").openPopup();
+                const distance = Math.round(guessLatLng.distanceTo(actualLatLng));
+                const resultDiv = document.getElementById('map-result');
+                resultDiv.innerHTML = `<p>You were <strong>${distance} meters</strong> away!</p><button id="next-map-challenge-btn" class="btn">Try Another</button>`;
+                document.getElementById('next-map-challenge-btn').addEventListener('click', renderMapChallenge);
+                state.map.off('click');
+            }
+
+            async function checkFieldSubmission() {
+                const resultDiv = document.getElementById('field-hunt-result');
+                resultDiv.innerHTML = `<p>Checking your latest observation...</p>`;
+                try {
+                    const latestObservations = await getiNaturalistData();
+                    if (latestObservations.length === 0) {
+                        resultDiv.innerHTML = `<p>We couldn't find any recent observations for your user.</p>`;
+                        return;
+                    }
+                    const latestObs = latestObservations[0];
+                    const submittedSpeciesId = latestObs.taxon.id;
+                    const targetSpeciesId = state.activeChallengeSpecies.id;
+                    if (submittedSpeciesId === targetSpeciesId) {
+                        resultDiv.innerHTML = `<p>✅ Correct! Your latest observation of a <strong>${latestObs.taxon.preferred_common_name}</strong> matches the challenge.</p>`;
+                    } else {
+                        resultDiv.innerHTML = `<p>❌ Not quite! Your latest was a <strong>${latestObs.taxon.preferred_common_name}</strong>, but we were looking for a <strong>${state.activeChallengeSpecies.commonName}</strong>.</p>`;
+                    }
+                    resultDiv.innerHTML += `<button id="next-field-hunt-btn" class="btn">New Field Hunt</button>`;
+                    document.getElementById('next-field-hunt-btn').addEventListener('click', renderFieldHunt);
+                } catch (error) {
+                    console.error("Error checking field submission:", error);
+                    resultDiv.innerHTML = `<p>Sorry, there was an error checking your observation.</p>`;
+                }
+            }
+
+            // =========================================================================
+            // --- INITIALIZATION ---
+            // =========================================================================
+            async function init() {
+                renderLoading();
+                try {
+                    const observations = await getiNaturalistData();
+                    if (!observations || observations.length === 0) {
+                        renderError(`No observations found for user '${INATURALIST_USERNAME}'.`);
+                        return;
+                    }
+                    state.speciesData = await Promise.all(observations.map(async (obs) => ({
+                        id: obs.taxon.id,
+                        commonName: obs.taxon.preferred_common_name || 'Unknown',
+                        scientificName: obs.taxon.name,
+                        photoUrl: obs.photos[0]?.url.replace('square', 'medium'),
+                        description: await getWikipediaSummary(obs.taxon.wikipedia_url),
+                        location: obs.location.split(',').map(Number),
+                        funFact: FUN_FACTS_POOL[Math.floor(Math.random() * FUN_FACTS_POOL.length)]
+                    })));
+                    renderMainMenu();
+                } catch (error) {
+                    console.error(error);
+                    renderError('Failed to load data from iNaturalist.');
+                }
+            }
+            init();
+        });
+    </script>
+</body>
+</html>
+

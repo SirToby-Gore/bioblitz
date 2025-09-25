@@ -1,204 +1,213 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Oswald:wght@200..700&display=swap");
+/* --- Global Styles & Variables --- */
+:root {
+    --primary-color: #0a5e23;
+    --secondary-color: #e9c46a;
+    --background-color: #f4f1de;
+    --text-color: #264653;
+    --danger-color: #e76f51;
+    --white: #ffffff;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+}
+
 body {
-  padding: 0;
-  padding-bottom: 30vh;
-  margin: 0;
-  background-color: beige;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
-body:has(:popover-open)::before {
-  filter: blur(3px);
-}
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("image.png");
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-  transition: filter 0.3s ease-in-out;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    text-align: center;
 }
 
-@media only screen and (max-width: 600px) {
-  body {
-    margin: 2rem;
-  }
-}
-.main-title {
-  margin: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  color: white;
-  background-color: rgba(13, 72, 128, 0.6);
-  width: max-content;
-  max-width: 90vw;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-}
-.main-title .top {
-  display: flex;
-  align-items: center;
-}
-.main-title .top img {
-  aspect-ratio: 1;
-  width: 8rem;
-  display: inline;
-}
-.main-title .top h1 {
-  display: inline;
-  font-family: "Oswald", sans-serif;
-  font-optical-sizing: auto;
-  text-decoration: underline;
-}
-.main-title .bottom p {
-  color: whitesmoke;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+header, footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-button[popovertarget] {
-  --colour: transparent;
-  margin: 4rem;
-  width: clamp(10rem, 8vw, 10rem);
-  min-height: 12rem;
-  background-color: rgba(20.0531914894, 111.0638297872, 197.4468085106, 0.6);
-  backdrop-filter: blur(3px);
-  border: var(--colour) 2px solid;
-  border-radius: 1rem;
-  padding: 1rem;
-  transition: filter 0.3s linear, scale 0.1s linear;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-}
-button[popovertarget] .title {
-  font-size: 1.6rem;
-}
-button[popovertarget] .brief {
-  font-size: 1rem;
-}
-button[popovertarget]:hover, button[popovertarget]:active, button[popovertarget]:focus-within {
-  filter: brightness(150%);
-  scale: 1.3;
-  opacity: 1;
-}
-button[popovertarget].very-low {
-  --colour: cornflowerblue;
-}
-button[popovertarget].low {
-  --colour: lightgreen;
-}
-button[popovertarget].medium {
-  --colour: yellow;
-}
-button[popovertarget].high {
-  --colour: orangered;
-}
-button[popovertarget].very-high {
-  --colour: crimson;
-}
-button[popovertarget].extremely-high {
-  --colour: rgb(172, 0, 106);
-}
-button[popovertarget] {
-  transform: translate(0.2rem, 0.4rem);
+main {
+    flex-grow: 1;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-@media only screen and (max-width: 600px) {
-  button[popovertarget] {
-    transform: none;
-  }
-}
-@keyframes blur-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-*[popover] {
-  --colour: transparent;
-  animation: blur-in 0.2s ease-in-out;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  background-color: #0d4880;
-  border: var(--colour) solid 3px;
-  color: white;
-  width: clamp(15rem, 50vw, 80rem);
-  height: clamp(40rem, 70vh, 150rem);
-  overflow-y: scroll;
-  overflow-y: scroll;
-}
-*[popover] .close-button {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  aspect-ratio: 1;
-  width: 2rem;
-  border-radius: 0.5rem;
-  margin: 0;
-  padding: 0;
-  min-width: 0;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-*[popover] .close-button::after {
-  content: "x";
-  font-size: 2rem;
-  font-weight: bolder;
-  color: white;
-}
-*[popover] .title {
-  text-align: center;
-  text-decoration: underline;
-  font-weight: bold;
-  font-family: "Oswald", sans-serif;
-}
-*[popover] .points {
-  margin-left: 10%;
-  font-style: italic;
-  color: var(--colour);
-}
-*[popover] .points::after {
-  content: " points";
-}
-*[popover] .description {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-}
-*[popover].very-low {
-  --colour: cornflowerblue;
-}
-*[popover].low {
-  --colour: lightgreen;
-}
-*[popover].medium {
-  --colour: yellow;
-}
-*[popover].high {
-  --colour: orangered;
-}
-*[popover].very-high {
-  --colour: crimson;
-}
-*[popover].extremely-high {
-  --colour: rgb(172, 0, 106);
+#app-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-@media only screen and (max-width: 600px) {
-  *[popover] {
-    margin: 2rem;
-  }
+/* --- Utility Classes --- */
+.hidden {
+    display: none;
 }
 
-/*# sourceMappingURL=styles.css.map */
+/* --- Buttons --- */
+.btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 0.5rem;
+}
+
+.btn:hover {
+    background-color: #21867a;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background-color: #d4b05a;
+}
+
+/* --- Main Menu --- */
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* --- Loading & Error States --- */
+.loading-indicator, .error-message {
+    font-size: 1.2rem;
+    padding: 2rem;
+}
+
+/* --- Flashcard Mode --- */
+.flashcard-container {
+    perspective: 1000px;
+}
+
+.flashcard {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: 1.5rem;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+    min-height: 450px;
+}
+
+.flashcard.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-face {
+    position: absolute;
+    width: calc(100% - 3rem); /* Adjust for padding */
+    height: calc(100% - 3rem);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* Safari */
+}
+
+.flashcard-front {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.flashcard-back {
+    transform: rotateY(180deg);
+    overflow-y: auto;
+}
+
+.flashcard img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.flashcard h2 {
+    margin: 0.5rem 0 0.25rem;
+    color: var(--primary-color);
+}
+
+.flashcard h3 {
+    margin: 0 0 1rem;
+    font-style: italic;
+    font-weight: 400;
+    color: #555;
+}
+
+.flashcard-nav {
+    margin-top: 1.5rem;
+}
+
+/* --- Quiz Mode --- */
+.quiz-container {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.quiz-question {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.quiz-options button {
+    width: 100%;
+    background: #f0f0f0;
+    color: var(--text-color);
+    border: 2px solid #ddd;
+    text-align: left;
+}
+.quiz-options button:hover {
+    background: #e0e0e0;
+    border-color: var(--secondary-color);
+}
+.quiz-options button.correct {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.quiz-options button.incorrect {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.quiz-progress {
+    margin-top: 1.5rem;
+    font-weight: bold;
+}
+
+/* --- Exploration Mode --- */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin: 1rem 0;
+}
+
+.field-hunt-container p {
+    background: var(--white);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    font-style: italic;
+    border-left: 5px solid var(--secondary-color);
+}
